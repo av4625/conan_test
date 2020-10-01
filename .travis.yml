@@ -1,0 +1,32 @@
+os: linux
+dist: trusty
+sudo: required
+language: python
+python: "3.7"
+compiler:
+  - gcc
+install:
+# Install conan
+  - pip install conan
+# Automatic detection of your arch, compiler, etc.
+  - conan user
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-7
+      - cmake
+      - make
+
+script:
+  # Link gcc-6 and g++-7 to their standard commands
+  - ln -s /usr/bin/g++-7 /usr/local/bin/g++
+  # Export CC and CXX to tell cmake which compiler to use
+  - export CXX=/usr/bin/g++-7
+  # Check versions of gcc, g++ and cmake
+  - g++ -v && cmake --version
+  - conan install . --build=missing
+  - cmake .
+  - make
+  - ctest
