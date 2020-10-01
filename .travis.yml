@@ -24,7 +24,7 @@ script:
   - export CC=gcc-7
   - export CXX=g++-7
   - mkdir build && cd build
-  - conan install . --build=gtest
+  - conan install .. --build=gtest
   - cmake ..
   - make
   - ctest
