@@ -23,8 +23,8 @@ addons:
 script:
   - export CC=gcc-7
   - export CXX=g++-7
-  - conan install . --build=gtest
   - mkdir build && cd build
+  - conan install . --build=gtest
   - cmake ..
   - make
   - ctest
