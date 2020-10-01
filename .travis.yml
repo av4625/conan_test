@@ -18,6 +18,7 @@ addons:
       - g++-7
       - cmake
       - make
+      - binutils
 
 script:
   - export CC=gcc-7
