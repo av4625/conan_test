@@ -1,5 +1,5 @@
 os: linux
-dist: trusty
+dist: bionic
 language: python
 python: "3.6"
 compiler:
@@ -9,20 +9,22 @@ install:
   - pip install conan
 # Automatic detection of your arch, compiler, etc.
   - conan user
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-7
-      - g++-7
-      - cmake
-      - make
-      - binutils
+  - conan profile new default --detect
+  - conan profile update settings.compiler.libcxx=libstdc++11 default
+# addons:
+#   apt:
+#     sources:
+#       - ubuntu-toolchain-r-test
+#     packages:
+#       - gcc-7
+#       - g++-7
+#       - cmake
+#       - make
+#       - binutils
 
 script:
-  - export CC=gcc-7
-  - export CXX=g++-7
+  # - export CC=gcc-7
+  # - export CXX=g++-7
   - mkdir build && cd build
   - conan install .. --build=gtest
   - cmake ..
