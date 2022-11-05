@@ -6,7 +6,7 @@
 class mock_test_impl : public mock_test
 {
 public:
-    boost::container::string get_val() const;
+    boost::container::string get_val() const override;
 };
 
 #endif

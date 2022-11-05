@@ -5,11 +5,14 @@
 
 TEST(GetVal, GetVal)
 {
-    mock_test_impl m;
+    const mock_test_impl m;
     EXPECT_EQ(boost::container::string("Hello World!"), m.get_val());
 }
 
 TEST(GetValMock, GetValMock)
 {
     mock_test_mock m;
+    EXPECT_CALL(m, get_val())
+        .WillOnce(::testing::Return(boost::container::string("!")));
+    EXPECT_EQ(boost::container::string("!"), m.get_val());
 }

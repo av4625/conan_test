@@ -1,0 +1,42 @@
+name: Unittests
+'on':
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+jobs:
+  Build:
+    runs-on: '${{ matrix.os }}'
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        python-version:
+          - '3.6'
+    steps:
+      - name: 'Set up Python ${{ matrix.python-version }}'
+        uses: actions/setup-python@v2
+        with:
+          python-version: '${{ matrix.python-version }}'
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Install conan
+        run: |
+          pip install conan
+          conan user
+          conan profile new default --detect
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+      - name: Create build directory
+        working-directory: .
+        run: mkdir build
+      - name: Cmake
+        working-directory: ./build
+        run: cmake ..
+      - name: Make
+        working-directory: ./build
+        run: make -j
+      - name: Run tests
+        working-directory: ./build
+        run: ctest
